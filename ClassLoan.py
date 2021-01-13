@@ -5,5 +5,5 @@ class Prestamo:
         self.articulo  = articulo
         self.cantidad  = cantidad
         self.fPrestamo = fPrestamo
-        devuelto       = False
+        devuelto       : bool
         fDevolucion    : str

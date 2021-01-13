@@ -7,7 +7,7 @@ class Persona:
       self.name  = name
       self.email = email
       self.cel   = cel
-      prestamos  = 0
+      prestamos  : int
       # self.fPrest = fPrest
       # self.arti   = arti 
       # self.cant   = cant

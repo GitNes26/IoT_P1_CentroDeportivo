@@ -1,5 +1,7 @@
 import datetime
-import ClassPerson as P
+# import ClassPerson as P
+from ClassPerson import Persona as P
+
 import ClassArticle as A
 import ClassLoan as L
 
@@ -30,6 +32,7 @@ def RegistrarPrestamo(folio, miembro, articulo, cantidad, fecha):
             print("|-   fPrestamo: "+p.fPrestamo+"\t-|")
             print("|-    Devuelto: "+str(p.devuelto)+"\t\t\t\t-|")
             print("|- fDevolucion: "+p.fDevolucion+"\t\t\t\t-|")
+            break
     
 def Devoluciones(folio):
     print("| Buscando prestamo...")
@@ -40,28 +43,32 @@ def Devoluciones(folio):
           prestamo.devuelto = True
           prestamo.fDevolucion = now
           encontrado = True
+          break
         else: i += 1
     if encontrado:
-        print("| Prestamo Devuelto\n| ")
-        print("|------------- Resumen del prestamo -------------|")
-        print("|-       Folio: "+str(Prestamos[i].folio)+"\t\t\t\t-|")
-        print("|-     Miembro: "+str(Prestamos[i].miembro)+"\t\t\t\t-|")
-        print("|-    Articulo: "+Prestamos[i].articulo+"\t\t\t\t-|")
-        print("|-    Cantidad: "+str(Prestamos[i].cantidad)+"\t\t\t\t-|")
-        print("|-   fPrestamo: "+Prestamos[i].fPrestamo+"\t-|")
-        print("|-    Devuelto: "+str(Prestamos[i].devuelto)+"\t\t\t\t-|")
-        print("|- fDevolucion: "+Prestamos[i].fDevolucion+"\t-|")
-    else: print("| Prestamo invalido")
+        for m in Miembros:
+            if miembro == m.Id:
+                m.prestamos += 1
+                print("| Prestamo Devuelto\n| ")
+                print("|------------- Resumen del prestamo -------------|")
+                print("|-       Folio: "+str(Prestamos[i].folio)+"\t\t\t\t-|")
+                print("|-     Miembro: "+str(Prestamos[i].miembro)+" - "+m.name+"\t\t\t-|")
+                print("|-    Articulo: "+Prestamos[i].articulo+"\t\t\t\t-|")
+                print("|-    Cantidad: "+str(Prestamos[i].cantidad)+"\t\t\t\t-|")
+                print("|-   fPrestamo: "+Prestamos[i].fPrestamo+"\t-|")
+                print("|-    Devuelto: "+str(Prestamos[i].devuelto)+"\t\t\t\t-|")
+                print("|- fDevolucion: "+Prestamos[i].fDevolucion+"\t-|")
+                break
+    else: print("| Devolucion invalida| El folio del prestamo no existe ")
      
 
-def RegistrarMiembro(Id, nombre, correo, cel):
-    newMiembro = P.Persona(Id, nombre, correo, cel)
-    newMiembro.prestamos = 3
-    print("|\n| Miembro Registrado")
-    print("| Bienvenido " + newMiembro.name)
-    print("| Su ID de miembro es: "+str(Id))
-
-    Miembros.append(newMiembro)
+# def RegistrarMiembro(Id, nombre, correo, cel):
+#     newMiembro = P.Persona(Id, nombre, correo, cel)
+#     newMiembro.prestamos = 3
+#     print("|\n| Miembro Registrado")
+#     print("| Bienvenido " + newMiembro.name)
+#     print("| Su ID de miembro es: "+str(Id))
+#     Miembros.append(newMiembro)
 
 def RegistrarArticulo(idA, articulo, inventario):
     newArticulo = A.Articulo(idA, articulo, inventario)
@@ -80,7 +87,7 @@ def VerMiembros():
         print("|"+str(miembro.Id)+"\t||"+miembro.name+"\t||"+miembro.email+"\t||"+miembro.cel+"\t||"+str(miembro.prestamos)+"\t\t\t|")
 
 def VerPrestamos():
-    print("|FOLIO || MIEMBRO\t\t|| ARTICULO\t\t|| CANTIDAD\t|| F.PRESTAMO\t\t|| DEVUELTO\t|| F.ENTREGADO\t\t|")
+    print("| FOLIO || MIEMBRO\t\t|| ARTICULO\t\t|| CANTIDAD\t|| F.PRESTAMO\t\t|| DEVUELTO\t|| F.ENTREGADO\t\t|")
     for pres in Prestamos:
         print("|"+str(pres.folio)+"\t||"+str(pres.miembro)+"\t||"+pres.articulo+"\t||"+str(pres.cantidad)+"\t||"+pres.fPrestamo+"||"+str(pres.devuelto)+"\t||"+pres.fDevolucion+"|")
 
@@ -105,14 +112,14 @@ while menu == True:
                 miembro  = int(input("| ID Miembro: "))
                 for m in Miembros:
                     if miembro == m.Id:
-                        if m.prestamos < 0:
+                        if m.prestamos > 0:
                             idL += 1
                             articulo = input("|   Articulo: ")
                             cantidad = int(input("|   Cantidad: "))
-                            RegistrarPrestamo(idL, miembro, articulo, cantidad, now)
+                            L.RegistrarPrestamo(idL, miembro, articulo, cantidad, now)
                             m.prestamos -= 1
-                        else: print("Prestamo Rechazado| Ya no te quedan más prestamos disponibles")
-                    break
+                        else: print("| Prestamo Rechazado| Ya no te quedan más prestamos disponibles")
+                        break
                 else: print("| Prestamo Rechazado| Miembro no registrado")
                 print("|------------------------------------------------|\n")
             
@@ -128,7 +135,13 @@ while menu == True:
                 nombre = input("| Nombre: ")
                 correo = input("| Correo: ")
                 cel    = input("| Celular: ")
-                RegistrarMiembro(idP, nombre, correo, cel)
+                p = P()
+                objeto = P(idP,nombre,correo,cel)
+                per = p.RegistrarMiembro(idP, nombre, correo, cel)
+                # per=P.RegistrarMiembro()
+                print("|\n| Miembro Registrado")
+                print("| Bienvenido " + per.name)
+                print("| Su ID de miembro es: "+str(per.Id))
                 print("|-----------------------------|\n")
             
             elif accion == 4:
@@ -150,9 +163,9 @@ while menu == True:
                 print("|-----------------------------------------------------------------------------------------------|\n")
 
             elif accion == 7:
-                print("|--------------------------------------------------------- VER PRESTAMOS --------------------------------------------------------------|")
+                print("|---------------------------------------------------------- VER PRESTAMOS --------------------------------------------------------------|")
                 VerPrestamos()
-                print("|--------------------------------------------------------------------------------------------------------------------------------------|\n")
+                print("|---------------------------------------------------------------------------------------------------------------------------------------|\n")
 
             else:
                 print("Hasta Pronto\n")

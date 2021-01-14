@@ -96,7 +96,7 @@ def VerPrestamos():
     print("| FOLIO || MIEMBRO\t|| ARTICULO\t|| CANTIDAD\t|| F.PRESTAMO\t\t\t|| DEVUELTO\t|| F.ENTREGADO\t\t\t|")
     ListaL = l.VerPrestamos()
     for pres in ListaL:
-        print("|"+str(pres.folio)+"\t||"+str(pres.miembro)+"\t\t||"+str(pres.articulo)+"\t\t||"+str(pres.cantidad)+"\t\t||"+pres.fPrestamo+"\t||"+str(pres.devuelto)+"\t||"+pres.fDevolucion+"\t|")
+        print("|"+str(pres.folio)+"\t||"+str(pres.miembro)+"\t\t||"+str(pres.articulo)+"\t\t||"+str(pres.cantidad)+"\t\t||"+pres.fPrestamo+"\t||"+str(pres.devuelto)+"\t\t||"+pres.fDevolucion+"\t|")
         # print("|"+str(pres.folio)+"\t||"+str(pres.miembro)+"\t||"+str(pres.articulo)+"\t||"+str(pres.cantidad)+"\t||"+pres.fPrestamo+"||"+str(pres.devuelto)+"\t||"+pres.fDevolucion+"|")
 
 
@@ -116,7 +116,7 @@ def RegistrarPrestamo(miembro,articulo,cantidad,folio=None,fecha=None):
         #         print("|-    Devuelto: "+str(pr.devuelto)+"\t\t\t\t-|")
         #         print("|- fDevolucion: "+pr.fDevolucion+"\t\t\t\t-|")
         #         break
-    else: print("| Prestamo Rechazado|Miembro no registrado")
+    # else: print("| Prestamo Rechazado|Miembro no registrado")
     
 def RegistrarMiembro():
     persona = p.RegistroPersona(idP, nombre, correo, cel)

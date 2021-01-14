@@ -39,12 +39,12 @@ class Prestamo:
                                 if cantidad <= ar.inventario:
                                     return True
                                 else: print("| Prestamo Rechazado|No se tiene la cantidad suficiente del ariticulo")
-                                return False
+                                break
                             else: print("| Prestamo Rechazado|Articulo solicitado agotado")
                             break
                     else: print("| Prestamo Rechazado|El articulo solicitado no existe")
-                    return False
+                    break
                 else: print("| Prestamo Rechazado|No le quedan mas prestamos disponibles")
                 break
-            break
-        return False #print("| Prestamo Rechazado|Miembro no registrado")
+            else: print("| Prestamo Rechazado|Miembro no registrado")
+        return False

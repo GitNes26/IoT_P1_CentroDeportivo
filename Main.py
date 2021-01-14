@@ -1,9 +1,12 @@
+# encoding: utf-8
 import datetime
-# import ClassPerson as P
 from ClassPerson import Persona as P
+from ClassArticle import Articulo as A
+from ClassLoan import Prestamo as L
 
-import ClassArticle as A
-import ClassLoan as L
+p = P()
+a = A()
+l = L()
 
 fecha = datetime.datetime.now()
 now = str(fecha)
@@ -11,8 +14,8 @@ menu = True
 idP = 0
 idA = 0
 idL = 0
-Miembros = []
-Articulos = []
+# Miembros = []
+# Articulos = []
 Prestamos = []
 
 #Metodos de cada Opcion
@@ -70,28 +73,49 @@ def Devoluciones(folio):
 #     print("| Su ID de miembro es: "+str(Id))
 #     Miembros.append(newMiembro)
 
-def RegistrarArticulo(idA, articulo, inventario):
-    newArticulo = A.Articulo(idA, articulo, inventario)
-    print("|\n| Articulo Registrado")
+# def RegistrarArticulo(idA, articulo, inventario):
+#     print("|\n| Articulo Registrado")
 
-    Articulos.append(newArticulo)
+#     Articulos.append(newArticulo)
 
-def VerInventario():
+def VerInventario(a):
     print("|  ID   || ARTICULO\t\t|| INVENTARIO\t |")
-    for articulo in Articulos:
+    listaA= a.VerArticulos()
+    for articulo in listaA:
         print("|"+str(articulo.Id)+"\t||"+articulo.articulo+"\t||"+str(articulo.inventario)+"\t\t |")
     
-def VerMiembros():
+def VerMiembros(p):
     print("|  ID   || NOMBRE\t\t|| CORREO\t\t|| CELULAR\t|| PRESTAMOS DISPONIBLES|")
-    for miembro in Miembros:
+    ListaP = p.VerPersonas()
+    for miembro in ListaP:
         print("|"+str(miembro.Id)+"\t||"+miembro.name+"\t||"+miembro.email+"\t||"+miembro.cel+"\t||"+str(miembro.prestamos)+"\t\t\t|")
 
-def VerPrestamos():
+def VerPrestamos(l):
     print("| FOLIO || MIEMBRO\t\t|| ARTICULO\t\t|| CANTIDAD\t|| F.PRESTAMO\t\t|| DEVUELTO\t|| F.ENTREGADO\t\t|")
+    ListaL = l.VerPrestamos()
     for pres in Prestamos:
         print("|"+str(pres.folio)+"\t||"+str(pres.miembro)+"\t||"+pres.articulo+"\t||"+str(pres.cantidad)+"\t||"+pres.fPrestamo+"||"+str(pres.devuelto)+"\t||"+pres.fDevolucion+"|")
 
-    
+def RegistrarPrestamo(n,c=None,d=None,d2=None,d3=None,d4=None,d5=None,cc=None):
+    if n == 1:
+      c.ValidarPrestamoMiembro(d)
+    elif n == 2:
+      c.ValidarPrestamoArticulo(d,d2)
+    elif n == 3:
+      c.RegistroPrestamo(idL, miembro, articulo, cantidad, now)
+    else:
+      c.PrestamosDisponibles(d,-1)
+      cc.CantidadInventario()
+
+def RegistrarMiembro():
+    # objeto = P(idP,nombre,correo,cel)
+    persona = p.RegistroPersona(idP, nombre, correo, cel)
+    print("|\n| Miembro Registrado")
+    print("| Bienvenido " + persona.name)
+    print("| Su ID de miembro es: "+str(persona.Id))
+
+def RegistrarArticulo():
+    a.RegistroArticulo(idA, articulo, inventario)
 
 while menu == True:
     print("|----------------------- MENU -----------------------|")
@@ -102,25 +126,21 @@ while menu == True:
     print("|                                                    |")
     print("|                     0.- Salir                      |")
     print("|----------------------------------------------------|")
-    accion = input("Accion a Realizar => ")
-    print()
-    if accion == "1" or accion == "2" or accion == "3" or accion == "4" or accion == "5" or accion == "6" or accion == "7" or accion == "0":
+    accion = input("                Accion a Realizar => "); print()
+    if accion in ("1","2","3","4","5","6","7","0"):
         accion = int(accion)
         if accion >= 0 and accion <= 7:
             if accion == 1:
                 print("|-------------- REGISTRAR PRESTAMO --------------|")
                 miembro  = int(input("| ID Miembro: "))
-                for m in Miembros:
-                    if miembro == m.Id:
-                        if m.prestamos > 0:
-                            idL += 1
-                            articulo = input("|   Articulo: ")
-                            cantidad = int(input("|   Cantidad: "))
-                            L.RegistrarPrestamo(idL, miembro, articulo, cantidad, now)
-                            m.prestamos -= 1
-                        else: print("| Prestamo Rechazado| Ya no te quedan más prestamos disponibles")
-                        break
-                else: print("| Prestamo Rechazado| Miembro no registrado")
+                RegistrarPrestamo(1,p,miembro)
+                articulo = input("|   Articulo: ")
+                cantidad = int(input("|   Cantidad: "))
+                RegistrarPrestamo(2,a,articulo,cantidad)
+                idL += 1
+                RegistrarPrestamo(3,l,idL, miembro, articulo, cantidad, now)
+                RegistrarPrestamo(4,p,miembro)
+                RegistrarPrestamo(4,a,cantidad)
                 print("|------------------------------------------------|\n")
             
             elif accion == 2:
@@ -135,41 +155,36 @@ while menu == True:
                 nombre = input("| Nombre: ")
                 correo = input("| Correo: ")
                 cel    = input("| Celular: ")
-                p = P()
-                objeto = P(idP,nombre,correo,cel)
-                per = p.RegistrarMiembro(idP, nombre, correo, cel)
-                # per=P.RegistrarMiembro()
-                print("|\n| Miembro Registrado")
-                print("| Bienvenido " + per.name)
-                print("| Su ID de miembro es: "+str(per.Id))
+                RegistrarMiembro()
                 print("|-----------------------------|\n")
+                
             
             elif accion == 4:
                 print("|----- REGISTRAR ARTICULO -----|")
                 idA += 1
                 articulo   = input("|   Articulo: ")
                 inventario = int(input("| Inventario: "))
-                RegistrarArticulo(idA, articulo, inventario)
+                RegistrarArticulo()
                 print("|------------------------------|\n")
 
             elif accion == 5:
                 print("|------------------ INVENTARIO ------------------|")
-                VerInventario()
+                VerInventario(a)
                 print("|------------------------------------------------|\n")
 
             elif accion == 6:
                 print("|----------------------------------------- VER MIEMBRO -----------------------------------------|")
-                VerMiembros()
+                VerMiembros(p)
                 print("|-----------------------------------------------------------------------------------------------|\n")
 
             elif accion == 7:
                 print("|---------------------------------------------------------- VER PRESTAMOS --------------------------------------------------------------|")
-                VerPrestamos()
+                VerPrestamos(l)
                 print("|---------------------------------------------------------------------------------------------------------------------------------------|\n")
 
             else:
                 print("Hasta Pronto\n")
                 menu = False
-        else: print("Opcion invalida|intenta con un numero del 0-6\n")
-    else: print("Opcion Invalida|debe de ser un numero entero entre el 0-6\n")
+        else: print("Opcion invalida|intenta con un numero del 0-7\n")
+    else: print("Opcion Invalida|debe de ser un numero entero entre el 0-7\n")
 else: print("Fin...")

@@ -1,24 +1,24 @@
 import ClassPerson as P
 import ClassArticle as A 
 
+ListaPrestamos = []
+
 class Prestamo:
-    def __init__(self, folio, miembro, articulo, cantidad, fPrestamo):
+    def __init__(self, folio=None, miembro=None, articulo=None, cantidad=None, fPrestamo=None):
         self.folio     = folio
         self.miembro   = miembro
         self.articulo  = articulo
         self.cantidad  = cantidad
         self.fPrestamo = fPrestamo
-        devuelto       : bool
-        fDevolucion    : str
-    
-    def __init__(self):
-      self.Prestamos = []
+        self.devuelto       = False
+        self.fDevolucion    = None
 
-    def RegistrarPrestamo(folio, miembro, articulo, cantidad, fecha):
+    def RegistroPrestamo(self, folio, miembro, articulo, cantidad, fecha):
         newPrestamo = Prestamo(folio, miembro, articulo, cantidad, fecha)
-        newPrestamo.devuelto = False
-        newPrestamo.fDevolucion = ""
-        Prestamos.append(newPrestamo)
-        for p in Prestamos:
+        ListaPrestamos.append(newPrestamo)
+        for p in ListaPrestamos:
             if folio == p.folio:
-                return Prestamo
+                return newPrestamo
+    
+    def VerPrestamos(self):
+        return ListaPrestamos

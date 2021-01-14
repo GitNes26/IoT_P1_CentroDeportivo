@@ -20,50 +20,50 @@ idL = 0
 # Prestamos = []
 
 #Metodos de cada Opcion
-def RegistrarPrestamo(folio, miembro, articulo, cantidad, fecha):
-    newPrestamo = L.Prestamo(folio, miembro, articulo, cantidad, fecha)
-    newPrestamo.devuelto = False
-    newPrestamo.fDevolucion = ""
-    print("|\n| Registro Exitoso|Folio del prestamo: "+str(folio)+"\n")
-    Prestamos.append(newPrestamo)
-    for p in Prestamos:
-        if folio == p.folio:
-            print("|------------- Resumen del prestamo -------------|")
-            print("|-       Folio: "+str(p.folio)+"\t\t\t\t-|")
-            print("|-     Miembro: "+str(p.miembro)+" - "+m.name+"\t\t-|")
-            print("|-    Articulo: "+p.articulo+"\t\t\t\t-|")
-            print("|-    Cantidad: "+str(p.cantidad)+"\t\t\t\t-|")
-            print("|-   fPrestamo: "+p.fPrestamo+"\t-|")
-            print("|-    Devuelto: "+str(p.devuelto)+"\t\t\t\t-|")
-            print("|- fDevolucion: "+p.fDevolucion+"\t\t\t\t-|")
-            break
+# def RegistrarPrestamo(folio, miembro, articulo, cantidad, fecha):
+#     newPrestamo = L.Prestamo(folio, miembro, articulo, cantidad, fecha)
+#     newPrestamo.devuelto = False
+#     newPrestamo.fDevolucion = ""
+#     print("|\n| Registro Exitoso|Folio del prestamo: "+str(folio)+"\n")
+#     Prestamos.append(newPrestamo)
+#     for p in Prestamos:
+#         if folio == p.folio:
+#             print("|------------- Resumen del prestamo -------------|")
+#             print("|-       Folio: "+str(p.folio)+"\t\t\t\t-|")
+#             print("|-     Miembro: "+str(p.miembro)+" - "+m.name+"\t\t-|")
+#             print("|-    Articulo: "+p.articulo+"\t\t\t\t-|")
+#             print("|-    Cantidad: "+str(p.cantidad)+"\t\t\t\t-|")
+#             print("|-   fPrestamo: "+p.fPrestamo+"\t-|")
+#             print("|-    Devuelto: "+str(p.devuelto)+"\t\t\t\t-|")
+#             print("|- fDevolucion: "+p.fDevolucion+"\t\t\t\t-|")
+#             break
     
-def Devoluciones(folio):
-    print("| Buscando prestamo...")
-    i = 0
-    encontrado = False
-    for prestamo in Prestamos:
-        if folio == prestamo.folio:
-          prestamo.devuelto = True
-          prestamo.fDevolucion = now
-          encontrado = True
-          break
-        else: i += 1
-    if encontrado:
-        for m in Miembros:
-            if miembro == m.Id:
-                m.prestamos += 1
-                print("| Prestamo Devuelto\n| ")
-                print("|------------- Resumen del prestamo -------------|")
-                print("|-       Folio: "+str(Prestamos[i].folio)+"\t\t\t\t-|")
-                print("|-     Miembro: "+str(Prestamos[i].miembro)+" - "+m.name+"\t\t\t-|")
-                print("|-    Articulo: "+Prestamos[i].articulo+"\t\t\t\t-|")
-                print("|-    Cantidad: "+str(Prestamos[i].cantidad)+"\t\t\t\t-|")
-                print("|-   fPrestamo: "+Prestamos[i].fPrestamo+"\t-|")
-                print("|-    Devuelto: "+str(Prestamos[i].devuelto)+"\t\t\t\t-|")
-                print("|- fDevolucion: "+Prestamos[i].fDevolucion+"\t-|")
-                break
-    else: print("| Devolucion invalida| El folio del prestamo no existe ")
+# def Devoluciones(folio):
+#     print("| Buscando prestamo...")
+#     i = 0
+#     encontrado = False
+#     for prestamo in Prestamos:
+#         if folio == prestamo.folio:
+#           prestamo.devuelto = True
+#           prestamo.fDevolucion = now
+#           encontrado = True
+#           break
+#         else: i += 1
+#     if encontrado:
+#         for m in Miembros:
+#             if miembro == m.Id:
+#                 m.prestamos += 1
+#                 print("| Prestamo Devuelto\n| ")
+#                 print("|------------- Resumen del prestamo -------------|")
+#                 print("|-       Folio: "+str(Prestamos[i].folio)+"\t\t\t\t-|")
+#                 print("|-     Miembro: "+str(Prestamos[i].miembro)+" - "+m.name+"\t\t\t-|")
+#                 print("|-    Articulo: "+Prestamos[i].articulo+"\t\t\t\t-|")
+#                 print("|-    Cantidad: "+str(Prestamos[i].cantidad)+"\t\t\t\t-|")
+#                 print("|-   fPrestamo: "+Prestamos[i].fPrestamo+"\t-|")
+#                 print("|-    Devuelto: "+str(Prestamos[i].devuelto)+"\t\t\t\t-|")
+#                 print("|- fDevolucion: "+Prestamos[i].fDevolucion+"\t-|")
+#                 break
+#     else: print("| Devolucion invalida| El folio del prestamo no existe ")
      
 
 # def RegistrarMiembro(Id, nombre, correo, cel):
@@ -152,7 +152,7 @@ while menu == True:
             elif accion == 2:
                 print("|----------------- DEVOLUCIONES -----------------|")
                 folio = int(input("| Numero de Folio del Prestamo: "))
-                Devoluciones(folio)
+                # Devoluciones(folio)
                 print("|------------------------------------------------|\n")
 
             elif accion == 3:

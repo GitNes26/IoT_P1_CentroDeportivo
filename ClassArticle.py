@@ -27,7 +27,7 @@ class Articulo:
 
     def ValidarPrestamoArticulo(self, articulo,cantidad):
       for a in ListaArticulos:
-        if articulo in a.Id:
+        if articulo == a.Id:
           if a.inventario > 0:
             if cantidad <= a.inventario:
               return
@@ -38,11 +38,7 @@ class Articulo:
     
     def CantidadInventario(self, articulo, cantidad):
       for a in ListaArticulos:
-        if articulo in a.Id:
+        if articulo == a.Id:
           a.inventario += cantidad
-          break
-
-
-       
-       
-      
+          return   
+        break

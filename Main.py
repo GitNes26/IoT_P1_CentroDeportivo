@@ -3,6 +3,7 @@ import datetime
 from ClassPerson import Persona as P
 from ClassArticle import Articulo as A
 from ClassLoan import Prestamo as L
+# import ClassLoan as L
 
 p = P()
 a = A()
@@ -16,7 +17,7 @@ idA = 0
 idL = 0
 # Miembros = []
 # Articulos = []
-Prestamos = []
+# Prestamos = []
 
 #Metodos de cada Opcion
 def RegistrarPrestamo(folio, miembro, articulo, cantidad, fecha):
@@ -78,37 +79,46 @@ def Devoluciones(folio):
 
 #     Articulos.append(newArticulo)
 
-def VerInventario(a):
+def VerInventario():
     print("|  ID   || ARTICULO\t\t|| INVENTARIO\t |")
     listaA= a.VerArticulos()
     for articulo in listaA:
         print("|"+str(articulo.Id)+"\t||"+articulo.articulo+"\t||"+str(articulo.inventario)+"\t\t |")
     
-def VerMiembros(p):
+def VerMiembros():
     print("|  ID   || NOMBRE\t\t|| CORREO\t\t|| CELULAR\t|| PRESTAMOS DISPONIBLES|")
     ListaP = p.VerPersonas()
     for miembro in ListaP:
         print("|"+str(miembro.Id)+"\t||"+miembro.name+"\t||"+miembro.email+"\t||"+miembro.cel+"\t||"+str(miembro.prestamos)+"\t\t\t|")
 
-def VerPrestamos(l):
-    print("| FOLIO || MIEMBRO\t\t|| ARTICULO\t\t|| CANTIDAD\t|| F.PRESTAMO\t\t|| DEVUELTO\t|| F.ENTREGADO\t\t|")
+def VerPrestamos():
+    # print("| FOLIO || MIEMBRO\t\t|| ARTICULO\t\t|| CANTIDAD\t|| F.PRESTAMO\t\t|| DEVUELTO\t|| F.ENTREGADO\t\t|")
+    print("| FOLIO || MIEMBRO\t|| ARTICULO\t|| CANTIDAD\t|| F.PRESTAMO\t\t\t|| DEVUELTO\t|| F.ENTREGADO\t\t\t|")
     ListaL = l.VerPrestamos()
-    for pres in Prestamos:
-        print("|"+str(pres.folio)+"\t||"+str(pres.miembro)+"\t||"+pres.articulo+"\t||"+str(pres.cantidad)+"\t||"+pres.fPrestamo+"||"+str(pres.devuelto)+"\t||"+pres.fDevolucion+"|")
+    for pres in ListaL:
+        print("|"+str(pres.folio)+"\t||"+str(pres.miembro)+"\t\t||"+str(pres.articulo)+"\t\t||"+str(pres.cantidad)+"\t\t||"+pres.fPrestamo+"\t||"+str(pres.devuelto)+"\t||"+pres.fDevolucion+"\t|")
+        # print("|"+str(pres.folio)+"\t||"+str(pres.miembro)+"\t||"+str(pres.articulo)+"\t||"+str(pres.cantidad)+"\t||"+pres.fPrestamo+"||"+str(pres.devuelto)+"\t||"+pres.fDevolucion+"|")
 
-def RegistrarPrestamo(n,c=None,d=None,d2=None,d3=None,d4=None,d5=None,cc=None):
-    if n == 1:
-      c.ValidarPrestamoMiembro(d)
-    elif n == 2:
-      c.ValidarPrestamoArticulo(d,d2)
-    elif n == 3:
-      c.RegistroPrestamo(idL, miembro, articulo, cantidad, now)
-    else:
-      c.PrestamosDisponibles(d,-1)
-      cc.CantidadInventario()
 
+def RegistrarPrestamo(miembro,articulo,cantidad,folio=None,fecha=None):
+    datosValidados = l.ValidarDatosPrestamo(miembro,articulo,cantidad)
+    if datosValidados:
+        prestamo = l.RegistroPrestamo(folio, miembro, articulo, cantidad, fecha)
+        print("|\n| Registro Exitoso|Folio del prestamo: "+str(prestamo.folio)+"\n")
+        # for pr in prestamo:
+        #     if folio == pr.folio:
+        #         print("|------------- Resumen del prestamo -------------|")
+        #         print("|-       Folio: "+str(pr.folio)+"\t\t\t\t-|")
+        #         # print("|-     Miembro: "+str(pr.miembro)+" - "+m.name+"\t\t-|")
+        #         print("|-    Articulo: "+pr.articulo+"\t\t\t\t-|")
+        #         print("|-    Cantidad: "+str(pr.cantidad)+"\t\t\t\t-|")
+        #         print("|-   fPrestamo: "+pr.fPrestamo+"\t-|")
+        #         print("|-    Devuelto: "+str(pr.devuelto)+"\t\t\t\t-|")
+        #         print("|- fDevolucion: "+pr.fDevolucion+"\t\t\t\t-|")
+        #         break
+    else: print("| Prestamo Rechazado|Miembro no registrado")
+    
 def RegistrarMiembro():
-    # objeto = P(idP,nombre,correo,cel)
     persona = p.RegistroPersona(idP, nombre, correo, cel)
     print("|\n| Miembro Registrado")
     print("| Bienvenido " + persona.name)
@@ -132,15 +142,11 @@ while menu == True:
         if accion >= 0 and accion <= 7:
             if accion == 1:
                 print("|-------------- REGISTRAR PRESTAMO --------------|")
-                miembro  = int(input("| ID Miembro: "))
-                RegistrarPrestamo(1,p,miembro)
-                articulo = input("|   Articulo: ")
-                cantidad = int(input("|   Cantidad: "))
-                RegistrarPrestamo(2,a,articulo,cantidad)
                 idL += 1
-                RegistrarPrestamo(3,l,idL, miembro, articulo, cantidad, now)
-                RegistrarPrestamo(4,p,miembro)
-                RegistrarPrestamo(4,a,cantidad)
+                miembro  = int(input("| ID Miembro: "))
+                articulo = int(input("|   Articulo: "))
+                cantidad = int(input("|   Cantidad: "))
+                RegistrarPrestamo(miembro,articulo,cantidad,idL,now)
                 print("|------------------------------------------------|\n")
             
             elif accion == 2:
@@ -169,17 +175,17 @@ while menu == True:
 
             elif accion == 5:
                 print("|------------------ INVENTARIO ------------------|")
-                VerInventario(a)
+                VerInventario()
                 print("|------------------------------------------------|\n")
 
             elif accion == 6:
                 print("|----------------------------------------- VER MIEMBRO -----------------------------------------|")
-                VerMiembros(p)
+                VerMiembros()
                 print("|-----------------------------------------------------------------------------------------------|\n")
 
             elif accion == 7:
                 print("|---------------------------------------------------------- VER PRESTAMOS --------------------------------------------------------------|")
-                VerPrestamos(l)
+                VerPrestamos()
                 print("|---------------------------------------------------------------------------------------------------------------------------------------|\n")
 
             else:

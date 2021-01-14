@@ -1,4 +1,5 @@
 ListaMiembros = []
+idL = 0
 
 class Persona:
 
@@ -17,18 +18,20 @@ class Persona:
     def VerPersonas(self):
       return ListaMiembros
 
-    def ValidarPrestamoMiembro(self, miembro):
+    def ValidarDatosPrestamo(self, miembro):
+      pase=False
       for m in ListaMiembros:
-        if miembro in m.Id:
+        if miembro == m.Id:
           if m.prestamos > 0:
+            pase=True
             return
           else: print("| Prestamo Rechazado|No le quedan mas prestamos disponibles")
           break
-      return print("| Prestamo Rechazado|Miembro no registrado")
+      return pase #, print("| Prestamo Rechazado|Miembro no registrado"))
 
     def PrestamosDisponibles(self, miembro, n):
       for m in ListaMiembros:
-        if miembro in m.Id:
+        if miembro == m.Id:
           m.prestamos += n
-          break
+          return
        

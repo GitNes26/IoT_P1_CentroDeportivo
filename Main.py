@@ -58,7 +58,7 @@ def Prestamos(miembro,articulo,cantidad):
         #         print("|-    Devuelto: "+str(pr.devuelto)+"\t\t\t\t-|")
         #         print("|- fDevolucion: "+pr.fDevolucion+"\t\t\t\t-|")
         #         break
-    # else: print("| Prestamo Rechazado|Miembro no registrado")
+    else: print(datosValidados)
 
 def Devoluciones(folio):
     devolucion = l.RegistroDevolucion(folio)

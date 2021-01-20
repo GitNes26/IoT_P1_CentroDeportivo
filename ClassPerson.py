@@ -1,6 +1,10 @@
+import json
+
 class Persona:
   idd = 0
   ListaMiembros = []
+  data = {}
+  data['ListaMiembros'] = []
 
   def __init__(self, Id=None, name=None, email=None, cel=None):
     self.Id    = Id
@@ -13,9 +17,18 @@ class Persona:
     self.idd += 1
     newMiembro = Persona( self.idd, nombre, correo, cel)
     self.ListaMiembros.append(newMiembro)
+    self.data['ListaMiembros'].append(encoderPersona(newMiembro))
+    with open('dataPersonas.json', 'w') as file:
+      json.dump(self.data, file, indent=4)
     return newMiembro
   
   def VerPersonas(self):
+    with open('dataPersonas.json') as f:
+      listillaJSON = json.load(f)
+      Objeto = encoderJSON(listillaJSON,Persona)
+      print(listillaJSON)
+      for o in Objeto:
+        print(o.name)
     return self.ListaMiembros
 
   def ValidarDatosPersona(self, miembro):
@@ -33,3 +46,49 @@ class Persona:
         m.prestamos += prestamosD
         return True
     return False
+
+
+
+def encoderPersona(persona):
+  if isinstance(persona,Persona):
+    return {
+      'Id'        : persona.Id,
+      'name'      : persona.name,
+      'email'     : persona.email,
+      'cel'       : persona.cel,
+      'prestamos' : 3
+    }
+  raise TypeError(f'El objeto {persona} no es de tipo Persona')
+
+arreglo = []
+
+def encoderJSON(lista, Persona):
+  pp=Persona()
+  for p in lista['ListaMiembros']:
+    Id        = p['Id']
+    name      = p['name']
+    email     = p['email']
+    cel       = p['cel']
+    prestamos = p['prestamos']
+
+    persona = pp(Id,name,email,cel,prestamos)
+
+    arreglo.append(persona)
+  return arreglo
+
+# def encoderJSON(lista):
+#   for p in lista['ListaMiembros']:
+#     Id        = p['Id']
+#     name      = p['name']
+#     email     = p['email']
+#     cel       = p['cel']
+#     prestamos = p['prestamos']
+
+#     class temporal:
+#       self.Id = Id
+#       self.name = name
+#       self.email = email
+#       self.cel = cel
+#       self.prestamos = prestamos
+#     arreglo.append(temporal)
+#   return arreglo

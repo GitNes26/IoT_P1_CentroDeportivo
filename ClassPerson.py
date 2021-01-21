@@ -58,30 +58,3 @@ def encoderPersona(persona):
       'prestamos' : 3
     }
   raise TypeError(f'El objeto {persona} no es de tipo Persona')
-
-# arreglo = []
-
-# def encoderJSON(lista, Persona):
-#   pp=Persona()
-#   for p in lista['ListaMiembros']:
-#     Id        = p['Id']
-#     name      = p['name']
-#     email     = p['email']
-#     cel       = p['cel']
-#     prestamos = p['prestamos']
-
-#     persona = pp.RegistroPersona(Id,name,email,cel,prestamos)
-
-#     arreglo.append(persona)
-#   return arreglo
-
-# def encoderJSON(lista):
-#   for p in lista['ListaMiembros']:
-#     Id        = p['Id']
-#     name      = p['name']
-#     email     = p['email']
-#     cel       = p['cel']
-#     prestamos = p['prestamos']
-
-#     arreglo.append(p)
-#   return arreglo

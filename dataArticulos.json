@@ -1,0 +1,9 @@
+{
+    "ListaArticulos": [
+        {
+            "Id": 1,
+            "articulo": "balon",
+            "inventario": 10
+        }
+    ]
+}

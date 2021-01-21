@@ -6,7 +6,7 @@ class Persona:
   data = {}
   data['ListaMiembros'] = []
 
-  def __init__(self, Id=None, name=None, email=None, cel=None):
+  def __init__(self, Id=None, name=None, email=None, cel=None, prestamo=None):
     self.Id    = Id
     self.name  = name
     self.email = email
@@ -25,10 +25,9 @@ class Persona:
   def VerPersonas(self):
     with open('dataPersonas.json') as f:
       listillaJSON = json.load(f)
-      Objeto = encoderJSON(listillaJSON,Persona)
-      print(listillaJSON)
-      for o in Objeto:
-        print(o.name)
+      for li in listillaJSON['ListaMiembros']:
+        newMiembro = Persona(li['Id'],li['name'],li['email'],li['cel'],li['prestamos'])
+        self.ListaMiembros.append(newMiembro)
     return self.ListaMiembros
 
   def ValidarDatosPersona(self, miembro):
@@ -60,21 +59,21 @@ def encoderPersona(persona):
     }
   raise TypeError(f'El objeto {persona} no es de tipo Persona')
 
-arreglo = []
+# arreglo = []
 
-def encoderJSON(lista, Persona):
-  pp=Persona()
-  for p in lista['ListaMiembros']:
-    Id        = p['Id']
-    name      = p['name']
-    email     = p['email']
-    cel       = p['cel']
-    prestamos = p['prestamos']
+# def encoderJSON(lista, Persona):
+#   pp=Persona()
+#   for p in lista['ListaMiembros']:
+#     Id        = p['Id']
+#     name      = p['name']
+#     email     = p['email']
+#     cel       = p['cel']
+#     prestamos = p['prestamos']
 
-    persona = pp(Id,name,email,cel,prestamos)
+#     persona = pp.RegistroPersona(Id,name,email,cel,prestamos)
 
-    arreglo.append(persona)
-  return arreglo
+#     arreglo.append(persona)
+#   return arreglo
 
 # def encoderJSON(lista):
 #   for p in lista['ListaMiembros']:
@@ -84,11 +83,5 @@ def encoderJSON(lista, Persona):
 #     cel       = p['cel']
 #     prestamos = p['prestamos']
 
-#     class temporal:
-#       self.Id = Id
-#       self.name = name
-#       self.email = email
-#       self.cel = cel
-#       self.prestamos = prestamos
-#     arreglo.append(temporal)
+#     arreglo.append(p)
 #   return arreglo

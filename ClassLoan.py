@@ -1,3 +1,4 @@
+import json
 import datetime
 from ClassPerson import Persona as P
 from ClassArticle import Articulo as A
@@ -8,8 +9,10 @@ a=A()
 class Prestamo:
     idd = 0
     ListaPrestamos = []
+    data = {}
+    data['ListaPrestamos'] = []
 
-    def __init__(self, folio=None, miembro=None, articulo=None, cantidad=None, fPrestamo=None):
+    def __init__(self, folio=None, miembro=None, articulo=None, cantidad=None, fPrestamo=None, devuelto=None, fDevolucion=None):
         self.folio     = folio
         self.miembro   = miembro
         self.articulo  = articulo
@@ -22,6 +25,9 @@ class Prestamo:
         self.idd += 1
         newPrestamo = Prestamo(self.idd, miembro, articulo, cantidad, fecha)
         self.ListaPrestamos.append(newPrestamo)
+        self.data['ListaPrestamos'].append(encoderPrestamo(newPrestamo))
+        with open('dataPrestamos.json', 'w') as file:
+            json.dump(self.data, file, indent=4)
         for p in self.ListaPrestamos:
             if self.idd == p.folio:
                 return newPrestamo
@@ -44,6 +50,11 @@ class Prestamo:
                 
     
     def VerPrestamos(self):
+        with open('dataPrestamos.json') as f:
+            listillaJSON = json.load(f)
+            for li in listillaJSON['ListaPrestamos']:
+                newPrestamo = Prestamo(li['folio'],li['miembro'],li['articulo'],li['cantidad'],li['fPrestamo'],li['devuelto'],li['fDevolucion'])
+                self.ListaPrestamos.append(newPrestamo)
         return self.ListaPrestamos
 
     def ValidarDatosPrestamo(self, miembro,articulo,cantidad):
@@ -77,3 +88,18 @@ class Prestamo:
         #         break
         #     else: print("| Prestamo Rechazado|Miembro no registrado")
         # return False
+
+
+
+def encoderPrestamo(prestamo):
+  if isinstance(prestamo,Prestamo):
+    return {
+      'folio'       : prestamo.folio,
+      'miembro'     : prestamo.miembro,
+      'articulo'    : prestamo.articulo,
+      'cantidad'    : prestamo.cantidad,
+      'fPrestamo'   : prestamo.fPrestamo,
+      'devuelto'    : prestamo.devuelto,
+      'fDevolucion' : prestamo.fDevolucion
+    }
+  raise TypeError(f'El objeto {prestamo} no es de tipo Persona')

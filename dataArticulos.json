@@ -2,8 +2,23 @@
     "ListaArticulos": [
         {
             "Id": 1,
-            "articulo": "balon",
-            "inventario": 10
+            "articulo": "Pelota de Beisbol",
+            "inventario": 100
+        },
+        {
+            "Id": 2,
+            "articulo": "Balon de Futbol",
+            "inventario": 50
+        },
+        {
+            "Id": 3,
+            "articulo": "Bat de madera",
+            "inventario": 35
+        },
+        {
+            "Id": 1,
+            "articulo": "Guante de Beisbol",
+            "inventario": 55
         }
     ]
 }

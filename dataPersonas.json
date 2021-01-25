@@ -2,16 +2,23 @@
     "ListaMiembros": [
         {
             "Id": 1,
-            "name": "primera",
-            "email": "persona",
-            "cel": "328786757327",
+            "name": "Admin Deportivo",
+            "email": "admin@deportivo.com",
+            "cel": "8711226655",
             "prestamos": 3
         },
         {
             "Id": 2,
-            "name": "segunda",
-            "email": "persona",
-            "cel": "27632633",
+            "name": "Nestor Puentes",
+            "email": "nestor@gmail.com",
+            "cel": "8711776622",
+            "prestamos": 3
+        },
+        {
+            "Id": 3,
+            "name": "Daniela Jimenez",
+            "email": "daniela@gmail.com",
+            "cel": "8766554433",
             "prestamos": 3
         }
     ]

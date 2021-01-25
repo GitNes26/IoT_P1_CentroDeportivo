@@ -6,12 +6,19 @@ class Persona:
   data = {}
   data['ListaMiembros'] = []
 
-  def __init__(self, Id=None, name=None, email=None, cel=None, prestamo=None):
+  def __init__(self, Id=None, name=None, email=None, cel=None, prestamo=None, bandera=0):
     self.Id    = Id
     self.name  = name
     self.email = email
     self.cel   = cel
     self.prestamos  = 3
+    self.bandera = 0
+    if bandera == 1:
+      with open('dataPersonas.json') as f:
+        listillaJSON = json.load(f)
+        for li in listillaJSON['ListaMiembros']:
+          newMiembro = Persona(li['Id'],li['name'],li['email'],li['cel'],li['prestamos'])
+          self.ListaMiembros.append(newMiembro)
   
   def RegistroPersona(self, nombre, correo, cel):
     self.idd += 1
@@ -23,11 +30,7 @@ class Persona:
     return newMiembro
   
   def VerPersonas(self):
-    with open('dataPersonas.json') as f:
-      listillaJSON = json.load(f)
-      for li in listillaJSON['ListaMiembros']:
-        newMiembro = Persona(li['Id'],li['name'],li['email'],li['cel'],li['prestamos'])
-        self.ListaMiembros.append(newMiembro)
+    
     return self.ListaMiembros
 
   def ValidarDatosPersona(self, miembro):

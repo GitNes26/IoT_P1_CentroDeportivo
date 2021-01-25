@@ -4,42 +4,12 @@ from ClassPerson import Persona as P
 from ClassArticle import Articulo as A
 from ClassLoan import Prestamo as L
 
-p = P()
-a = A()
-l = L()
+p = P(bandera =1)
+a = A(bandera =1)
+l = L(bandera =1)
 menu = True
 
 #Metodos de cada Opcion
-    
-# def Devoluciones(folio):
-    # fecha = str(datetime.datetime.now())
-#     print("| Buscando prestamo...")
-#     i = 0
-#     encontrado = False
-#     for prestamo in Prestamos:
-#         if folio == prestamo.folio:
-#           prestamo.devuelto = True
-#           prestamo.fDevolucion = now
-#           encontrado = True
-#           break
-#         else: i += 1
-#     if encontrado:
-#         for m in Miembros:
-#             if miembro == m.Id:
-#                 m.prestamos += 1
-#                 print("| Prestamo Devuelto\n| ")
-#                 print("|------------- Resumen del prestamo -------------|")
-#                 print("|-       Folio: "+str(Prestamos[i].folio)+"\t\t\t\t-|")
-#                 print("|-     Miembro: "+str(Prestamos[i].miembro)+" - "+m.name+"\t\t\t-|")
-#                 print("|-    Articulo: "+Prestamos[i].articulo+"\t\t\t\t-|")
-#                 print("|-    Cantidad: "+str(Prestamos[i].cantidad)+"\t\t\t\t-|")
-#                 print("|-   fPrestamo: "+Prestamos[i].fPrestamo+"\t-|")
-#                 print("|-    Devuelto: "+str(Prestamos[i].devuelto)+"\t\t\t\t-|")
-#                 print("|- fDevolucion: "+Prestamos[i].fDevolucion+"\t-|")
-#                 break
-#     else: print("| Devolucion invalida| El folio del prestamo no existe ")
-
-
 
 def Prestamos(miembro,articulo,cantidad):
     datosValidados = l.ValidarDatosPrestamo(miembro,articulo,cantidad)

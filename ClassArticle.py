@@ -6,21 +6,17 @@ class Articulo:
   data = {}
   data['ListaArticulos'] = []
 
-  def __init__(self, Id=None, articulo=None, inventario=None):
+  def __init__(self, Id=None, articulo=None, inventario=None, bandera=0):
     self.Id             = Id
     self.articulo       = articulo
     self.inventario     = inventario
-    # self.ListaArticulos = [
-    #   '''{"Id":'1',
-    #    "articulo":'Balon de Futbol',
-    #    "inventario":50
-    #   },
-    #   {
-    #    "Id":'2',
-    #    "articulo":'Balon de Basketbol',
-    #    "inventario":30
-    #   }'''
-    # ]
+    self.bandera = 0
+    if bandera == 1:
+      with open('dataArticulos.json') as f:
+        listillaJSON = json.load(f)
+        for li in listillaJSON['ListaArticulos']:
+          newArticulo = Articulo(li['Id'],li['articulo'],li['inventario'])
+          self.ListaArticulos.append(newArticulo)
 
   def RegistroArticulo(self, articulo, inventario):
     self.idd += 1
@@ -32,11 +28,6 @@ class Articulo:
     return newArticulo
   
   def VerArticulos(self):
-    with open('dataArticulos.json') as f:
-      listillaJSON = json.load(f)
-      for li in listillaJSON['ListaArticulos']:
-        newArticulo = Articulo(li['Id'],li['articulo'],li['inventario'])
-        self.ListaArticulos.append(newArticulo)
     return self.ListaArticulos
 
   def ValidarDatosArticulo(self, articulo,cantidad):

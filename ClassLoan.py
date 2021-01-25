@@ -12,7 +12,7 @@ class Prestamo:
     data = {}
     data['ListaPrestamos'] = []
 
-    def __init__(self, folio=None, miembro=None, articulo=None, cantidad=None, fPrestamo=None, devuelto=None, fDevolucion=None):
+    def __init__(self, folio=None, miembro=None, articulo=None, cantidad=None, fPrestamo=None, devuelto=None, fDevolucion=None, bandera=0):
         self.folio     = folio
         self.miembro   = miembro
         self.articulo  = articulo
@@ -20,6 +20,13 @@ class Prestamo:
         self.fPrestamo = fPrestamo
         self.devuelto       = False
         self.fDevolucion    = ""
+        self.bandera = 0
+        if bandera == 1:
+            with open('dataPrestamos.json') as f:
+                listillaJSON = json.load(f)
+                for li in listillaJSON['ListaPrestamos']:
+                    newPrestamo = Prestamo(li['folio'],li['miembro'],li['articulo'],li['cantidad'],li['fPrestamo'],li['devuelto'],li['fDevolucion'])
+                    self.ListaPrestamos.append(newPrestamo)
 
     def RegistroPrestamo(self, miembro, articulo, cantidad, fecha):
         self.idd += 1
@@ -50,11 +57,6 @@ class Prestamo:
                 
     
     def VerPrestamos(self):
-        with open('dataPrestamos.json') as f:
-            listillaJSON = json.load(f)
-            for li in listillaJSON['ListaPrestamos']:
-                newPrestamo = Prestamo(li['folio'],li['miembro'],li['articulo'],li['cantidad'],li['fPrestamo'],li['devuelto'],li['fDevolucion'])
-                self.ListaPrestamos.append(newPrestamo)
         return self.ListaPrestamos
 
     def ValidarDatosPrestamo(self, miembro,articulo,cantidad):

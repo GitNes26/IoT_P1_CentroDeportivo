@@ -19,11 +19,6 @@
             "Id": 4,
             "articulo": "Guante de Beisbol",
             "inventario": 55
-        },
-        {
-            "Id": 5,
-            "articulo": "Botella de agua",
-            "inventario": 500
         }
     ]
 }

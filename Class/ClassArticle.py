@@ -23,7 +23,7 @@ class Articulo:
     self.idd += 1
     newArticulo = Articulo(self.idd, articulo, inventario)
     self.ListaArticulos.append(newArticulo)
-    for la in self.ListaArticulos:
+    for la in self.ListaArticulose:
       self.data['ListaArticulos'].append(encoderArticulo(la))
       with open('dataArticulos.json', 'w') as file:
         json.dump(self.data, file, indent=4)

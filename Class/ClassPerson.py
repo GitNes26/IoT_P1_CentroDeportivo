@@ -1,14 +1,13 @@
 import json
-import ConexionMySQL as mysqlDB
-import ConexionMongoDB as mongoDB
+# import Interface
 
 # listaPersonas = Interface.ListaMiembros
 
 class Persona:
   idd = 0
   ListaMiembros = []
-  # data = {}
-  # data['ListaMiembros'] = []
+  data = {}
+  data['ListaMiembros'] = []
 
   def __init__(self, Id=None, name=None, email=None, cel=None, prestamo=None, bandera=0):
     self.Id    = Id
@@ -16,30 +15,29 @@ class Persona:
     self.email = email
     self.cel   = cel
     self.prestamos  = 3
-    # self.bandera = 0
-    # if bandera == 1:
-    #   with open('dataPersonas.json') as f:
-    #     listillaJSON = json.load(f)
-    #     for li in listillaJSON['ListaMiembros']:
-    #       newMiembro = Persona(li['Id'],li['name'],li['email'],li['cel'],li['prestamos'])
-    #       self.ListaMiembros.append(newMiembro)
-    #       self.idd = li['Id']
+    self.bandera = 0
+    if bandera == 1:
+      with open('dataPersonas.json') as f:
+        listillaJSON = json.load(f)
+        for li in listillaJSON['ListaMiembros']:
+          newMiembro = Persona(li['Id'],li['name'],li['email'],li['cel'],li['prestamos'])
+          self.ListaMiembros.append(newMiembro)
+          self.idd = li['Id']
   
   def RegistroPersona(self, nombre, correo, cel):
     u=0
-    # self.idd += 1
-    newMiembro = Persona(nombre, correo, cel)
+    self.idd += 1
+    newMiembro = Persona( self.idd, nombre, correo, cel)
     self.ListaMiembros.append(newMiembro)
-    mysqlDB.Insertar('miembros', name=newMiembro.name, email=newMiembro.email, cel=newMiembro.cel)
-    # self.data['ListaMiembros'].append(encoderPersona(newMiembro))
-    # with open('dataPersonas.json','w') as f:
-    #   json.dump(self.data,f,indent=4)
-    #   # for la in self.ListaMiembros:
-    #     # self.idd = la.Id
-    # for lp in self.ListaMiembros:
-    #   self.data['ListaMiembros'].append(encoderPersona(lp))
-    #   with open('dataPersonas.json', 'w') as file:
-    #     json.dump(self.data, file, indent=4)
+    self.data['ListaMiembros'].append(encoderPersona(newMiembro))
+    with open('dataPersonas.json','w') as f:
+      json.dump(self.data,f,indent=4)
+      # for la in self.ListaMiembros:
+        # self.idd = la.Id
+    for lp in self.ListaMiembros:
+      self.data['ListaMiembros'].append(encoderPersona(lp))
+      with open('dataPersonas.json', 'w') as file:
+        json.dump(self.data, file, indent=4)
     #     self.idd = lp.Id
 
     return newMiembro

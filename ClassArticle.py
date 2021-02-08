@@ -1,4 +1,6 @@
 import json
+import ConexionMySQL
+import ConexionMongoDB
 
 class Articulo:
   idd = 0
@@ -32,21 +34,37 @@ class Articulo:
   def VerArticulos(self):
     return self.ListaArticulos
 
-  def ValidarDatosArticulo(self, articulo,cantidad):
-    for a in self.ListaArticulos:
-      if articulo == a.Id:
-        if a.inventario > 0:
-          if cantidad <= a.inventario:
+  def ValidarDatosArticulo(self, articulo,cantidad, mydb,dbs):
+    lista = mydb.Mostrar('articulos')
+    if dbs == '-MySQL-':
+      x = 0
+      y = 2
+    else:
+      x = 'id'
+      y = 'inventario'
+    for a in lista:
+      if articulo == a[x]:
+        if int(a[y]) > 0:
+          if cantidad <= int(a[y]):
             return True
           else: print("| Prestamo Rechazado|No se tiene la cantidad suficiente del articulo")
         else: print("| Prestamo Rechazado|Articulo solicitado agotado")
         break
     else: print("| Prestamo Rechazado|El articulo solicitado no existe")
   
-  def CantidadInventario(self, articulo, cantidad):
-    for a in self.ListaArticulos:
-      if articulo == a.Id:
-        a.inventario += cantidad
+  def CantidadInventario(self, articulo, cantidad, mydb,dbs):
+    lista = mydb.Mostrar('articulos')
+    if dbs == '-MySQL-':
+      x = 0
+      y = 2
+    else:
+      x = 'id'
+      y = 'inventario'
+    for a in lista:
+      if articulo == a[x]:
+        inv = int(a[y]) + cantidad
+        mydb.Actualizar(tabla='articulos', campoSet='inventario',valorSet=inv,
+        campoWhere='id', condicional='=',valorWhere=articulo)
         return True
       break
 

@@ -17,6 +17,15 @@
             "fPrestamo": "2021-01-29 10:39:25.117245",
             "devuelto": false,
             "fDevolucion": ""
+        },
+        {
+            "folio": 3,
+            "miembro": 2,
+            "articulo": 1,
+            "cantidad": 3,
+            "fPrestamo": "2021-02-07 22:27:55.434779",
+            "devuelto": false,
+            "fDevolucion": ""
         }
     ]
 }

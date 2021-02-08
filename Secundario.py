@@ -3,16 +3,13 @@ import datetime
 from ClassPerson import Persona as P
 from ClassArticle import Articulo as A
 from ClassLoan import Prestamo as L
-import ConexionMySQL
-import ConexionMongoDB
+# from Interface import Interf
 
 # interface = Interf(bandera=1)
 p = P(bandera =1)
 a = A(bandera =1)
 l = L(bandera =1)
 menu = True
-mydb = ''
-dbs = ''
 
 #Metodos de cada Opcion
 
@@ -43,14 +40,12 @@ def Devoluciones(folio):
 
 def RegistrarMiembro():
     persona = p.RegistroPersona(nombre, correo, cel)
-    # mydb.Insertar('miembros', name=persona.name, email=persona.email, cel=persona.cel)
     print("|\n| Miembro Registrado")
     print("| Bienvenido " + persona.name)
     print("| Su ID de miembro es: "+str(persona.Id))
 
 def RegistrarArticulo():
-    articulo = a.RegistroArticulo(articulo, inventario)
-    mydb.Insertar('articulos', articulo=articulo.articulo, inventario=articulo.inventario)
+    a.RegistroArticulo(articulo, inventario)
 
 def VerInventario():
     print("|  ID   || ARTICULO\t\t|| INVENTARIO\t |")
@@ -72,34 +67,17 @@ def VerPrestamos():
         print("|"+str(pres.folio)+"\t||"+str(pres.miembro)+"\t\t||"+str(pres.articulo)+"\t\t||"+str(pres.cantidad)+"\t\t||"+pres.fPrestamo+"\t||"+str(pres.devuelto)+"\t\t||"+pres.fDevolucion+"\t|")
         # print("|"+str(pres.folio)+"\t||"+str(pres.miembro)+"\t||"+str(pres.articulo)+"\t||"+str(pres.cantidad)+"\t||"+pres.fPrestamo+"||"+str(pres.devuelto)+"\t||"+pres.fDevolucion+"|")
 
-def SeleccionarBD():
-    print("|------------------- Base de Datos ------------------|")
-    print("|       1.- MySQL                    2.- MongoDB     |")
-    mydb = input("| Elige que base de datos desea utilizar: ")
-    if mydb == '1':
-        mydb = ConexionMySQL
-        print("|                BD -> MySQL                         |")
-        dbs = "-MySQL-"
-    else:
-        mydb = ConexionMongoDB
-        print("|                BD -> MongoDB                       |")
-        dbs = "MongoDB"
-    print("|                                                    |")
-    return dbs
-
-
-dbs = SeleccionarBD()
 while menu == True:
-    print("|----------------------- MENU -------------"+dbs+"---|")
+    print("|----------------------- MENU -----------------------|")
     print("|   1.- Nuevo Prestamo        5.- Ver inventario     |")
     print("|   2.- Devolucion            6.- Ver Miembros       |")
     print("|   3.- Registrar Miembro     7.- Ver Prestamos      |")
-    print("|   4.- Registrar Articulo    8.- Seleccionar BD     |")
+    print("|   4.- Registrar Articulo                           |")
     print("|                                                    |")
     print("|                     0.- Salir                      |")
     print("|----------------------------------------------------|")
     accion = input("                Accion a Realizar => "); print()
-    if accion in ("1","2","3","4","5","6","7","8","0"):
+    if accion in ("1","2","3","4","5","6","7","0"):
         accion = int(accion)
         if accion == 1:
             print("|-------------- REGISTRAR PRESTAMO --------------|")
@@ -144,9 +122,6 @@ while menu == True:
             print("|---------------------------------------------------------- VER PRESTAMOS --------------------------------------------------------------|")
             VerPrestamos()
             print("|---------------------------------------------------------------------------------------------------------------------------------------|\n")
-
-        elif accion == 8:
-            dbs = SeleccionarBD()
 
         else:
             print("Hasta Pronto\n")

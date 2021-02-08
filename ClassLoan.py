@@ -2,6 +2,8 @@ import json
 import datetime
 from ClassPerson import Persona as P
 from ClassArticle import Articulo as A
+import ConexionMySQL
+import ConexionMongoDB
 
 p=P()
 a=A()
@@ -9,8 +11,8 @@ a=A()
 class Prestamo:
     idd = 0
     ListaPrestamos = []
-    data = {}
-    data['ListaPrestamos'] = []
+    # data = {}
+    # data['ListaPrestamos'] = []
 
     def __init__(self, folio=None, miembro=None, articulo=None, cantidad=None, fPrestamo=None, devuelto=None, fDevolucion=None, bandera=0):
         self.folio     = folio
@@ -20,29 +22,29 @@ class Prestamo:
         self.fPrestamo = fPrestamo
         self.devuelto       = False
         self.fDevolucion    = ""
-        self.bandera = 0
-        if bandera == 1:
-            with open('dataPrestamos.json') as f:
-                listillaJSON = json.load(f)
-                for li in listillaJSON['ListaPrestamos']:
-                    newPrestamo = Prestamo(li['folio'],li['miembro'],li['articulo'],li['cantidad'],li['fPrestamo'],li['devuelto'],li['fDevolucion'])
-                    self.ListaPrestamos.append(newPrestamo)
-                    self.idd = li['folio']
+        # self.bandera = 0
+        # if bandera == 1:
+        #     with open('dataPrestamos.json') as f:
+        #         listillaJSON = json.load(f)
+        #         for li in listillaJSON['ListaPrestamos']:
+        #             newPrestamo = Prestamo(li['folio'],li['miembro'],li['articulo'],li['cantidad'],li['fPrestamo'],li['devuelto'],li['fDevolucion'])
+        #             self.ListaPrestamos.append(newPrestamo)
+        #             self.idd = li['folio']
 
     def RegistroPrestamo(self, miembro, articulo, cantidad, fecha):
-        self.idd += 1
+        # self.idd += 1
         newPrestamo = Prestamo(self.idd, miembro, articulo, cantidad, fecha)
         self.ListaPrestamos.append(newPrestamo)
-        for lp in self.ListaPrestamos:
-            # self.data['ListaPrestamos'].append(encoderPrestamo(newPrestamo))
-            self.data['ListaPrestamos'].append(encoderPrestamo(lp))
-            with open('dataPrestamos.json', 'w') as file:
-                json.dump(self.data, file, indent=4)
+        # for lp in self.ListaPrestamos:
+        #     # self.data['ListaPrestamos'].append(encoderPrestamo(newPrestamo))
+        #     self.data['ListaPrestamos'].append(encoderPrestamo(lp))
+        #     with open('dataPrestamos.json', 'w') as file:
+        #         json.dump(self.data, file, indent=4)
         # for p in self.ListaPrestamos:
         #     if self.idd == p.folio:
         return newPrestamo
     
-    def RegistroDevolucion(self, folio):
+    def RegistroDevolucion(self, folio, mydb, dbs):
         i = 0
         for r in self.ListaPrestamos:
             if folio == r.folio:
@@ -52,9 +54,9 @@ class Prestamo:
                 miembro = r.miembro
                 articulo = r.articulo
                 cantidad = r.cantidad
-                disponibles = p.PrestamosDisponibles(miembro, 1)
+                disponibles = p.PrestamosDisponibles(miembro, 1, mydb,dbs)
                 if disponibles:
-                    disponibles = a.CantidadInventario(articulo, cantidad)
+                    disponibles = a.CantidadInventario(articulo, cantidad, mydb,dbs)
                     return True
         return False
                 
@@ -62,15 +64,15 @@ class Prestamo:
     def VerPrestamos(self):
         return self.ListaPrestamos
 
-    def ValidarDatosPrestamo(self, miembro,articulo,cantidad):
+    def ValidarDatosPrestamo(self, miembro,articulo,cantidad,mydb,dbs):
         #Validar que haya usuarios y tengan prestamos disponibles
-        pase = p.ValidarDatosPersona(miembro)
+        pase = p.ValidarDatosPersona(miembro,mydb,dbs)
         if pase:
-            pase =a.ValidarDatosArticulo(articulo,cantidad)
+            pase =a.ValidarDatosArticulo(articulo,cantidad,mydb,dbs)
             if pase:
-                disponibles = p.PrestamosDisponibles(miembro, -1)
+                disponibles = p.PrestamosDisponibles(miembro, -1, mydb,dbs)
                 if disponibles:
-                    disponibles = a.CantidadInventario(articulo, -cantidad)
+                    disponibles = a.CantidadInventario(articulo, -cantidad, mydb,dbs)
                     return True
         else: False
           

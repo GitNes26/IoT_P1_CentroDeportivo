@@ -74,8 +74,13 @@ else:
 # condicional = '='
 # valorWhere = '10'
 
+'''MOSTRAR ID'''
+def MostrarID():
+    return myCursor.lastrowid
+
+
 '''INSERTAR DATOS'''
-def Insertar(tabla,name=None,email=None,cel=None,prestamo=None,miembro=None,articulo=None,inventario=None,cantidad=None,fPrestamo=None,devuelto=None,fDevolucion=None):
+def Insertar(tabla,name=None,email=None,cel=None,prestamo=None,miembro=None,articulo=None,inventario=None,cantidad=None,fPrestamo=None,devuelto=False,fDevolucion=None):
     if tabla == 'miembros':
         sql = "INSERT INTO "+tabla+" (name, email, cel, prestamos) \
             VALUES (%s, %s, %s, %s)"
@@ -96,7 +101,7 @@ def Mostrar(tabla):
     sql = ("SELECT * FROM "+tabla)
     myCursor.execute(sql)
     myResult = myCursor.fetchall()
-    print(myResult)
+    # print(myResult)
     return myResult
     for x in myResult:
         print(x)

@@ -24,6 +24,11 @@
             "Id": 5,
             "articulo": "Botella de agua",
             "inventario": 500
+        },
+        {
+            "Id": 6,
+            "articulo": "Soga de 5mts",
+            "inventario": 62
         }
     ]
 }

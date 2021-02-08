@@ -1,7 +1,8 @@
 import json
-import ConexionMySQL as mysqlDB
-import ConexionMongoDB as mongoDB
+import ConexionMySQL
+import ConexionMongoDB
 
+# mydb = mysqlDB
 # listaPersonas = Interface.ListaMiembros
 
 class Persona:
@@ -30,7 +31,7 @@ class Persona:
     # self.idd += 1
     newMiembro = Persona(nombre, correo, cel)
     self.ListaMiembros.append(newMiembro)
-    mysqlDB.Insertar('miembros', name=newMiembro.name, email=newMiembro.email, cel=newMiembro.cel)
+    # mysqlDB.Insertar('miembros', name=newMiembro.name, email=newMiembro.email, cel=newMiembro.cel)
     # self.data['ListaMiembros'].append(encoderPersona(newMiembro))
     # with open('dataPersonas.json','w') as f:
     #   json.dump(self.data,f,indent=4)
@@ -48,19 +49,35 @@ class Persona:
     # return listaPersonas
     return self.ListaMiembros
 
-  def ValidarDatosPersona(self, miembro):
-    for m in self.ListaMiembros:
-      if miembro == m.Id:
-        if m.prestamos > 0:
+  def ValidarDatosPersona(self, miembro, mydb,dbs):
+    lista = mydb.Mostrar('miembros')
+    if dbs == '-MySQL-':
+      x = 0
+      y = 4
+    else:
+      x = 'id'
+      y = 'prestamos'
+    for m in lista:
+      if miembro == m[x]:
+        if int(m[y]) > 0:
           return True
         else: print("| Prestamo Rechazado|No le quedan mas prestamos disponibles")
         break
     return print("| Prestamo Rechazado|Miembro no registrado")
 
-  def PrestamosDisponibles(self, miembro, prestamosD):
-    for m in self.ListaMiembros:
-      if miembro == m.Id:
-        m.prestamos += prestamosD
+  def PrestamosDisponibles(self, miembro, prestamosD, mydb,dbs):
+    lista = mydb.Mostrar('miembros')
+    if dbs == '-MySQL-':
+      x = 0
+      y = 4
+    else:
+      x = 'id'
+      y = 'prestamos'
+    for m in lista:
+      if miembro == m[x]:
+        pd = int(m[y]) + prestamosD
+        mydb.Actualizar(tabla='miembros', campoSet='prestamos',valorSet=pd,
+        campoWhere='id', condicional='=',valorWhere=miembro)
         return True
     return False
 
